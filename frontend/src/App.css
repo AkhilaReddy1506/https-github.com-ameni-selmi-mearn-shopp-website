@@ -1,0 +1,54 @@
+#root{
+    margin: 0rem 1rem 0rem 1rem;
+}
+.products-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-gap: 1%;
+}
+.product{
+    width: 80% ;
+}
+.product a{
+    
+}
+.product-descreption{
+    display: grid;
+}
+.product img {
+    width: 70% ;
+}
+.rating{
+    display: inline;
+}
+.rating .nb-rating{
+    vertical-align: text-top;
+    margin: 2%;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #615f5f;
+}
+.NavBar{
+    background-color: #fff;
+    color: #474647 ;
+}
+.Nav_link{
+    text-decoration: none;
+    color: #474647 ;
+}
+.Nav_link Button{
+    color: #474647 !important ;
+} 
+.Grid img{
+    max-width: 100%;
+}
+.Grid{
+    margin-top: 10% !important;
+}
+.Grid .Card li{
+    justify-content: center;
+}
+.Grid .Card{
+        width: 55%;
+        float: right;
+}
