@@ -75,15 +75,15 @@ export default function ProductDetails() {
     const {cart} = state ;
     const addToCartHandeller =async()=>{
       const existItem = cart.cartItems.find((x) => x._id === product._id);
-      const quantity = existItem ? existItem.quantity + 1 : 1;
+      // const quantity = existItem ? existItem.quantity + 1 : 1;
       const { data } = await axios.get(`http://localhost:5000/api/products/${product._id}`);
-      if (data.countInStock < quantity) {
-        window.alert('Sorry. Product is out of stock');
-        return;
-      }
+      // if (data.countInStock < quantity) {
+      //   window.alert('Sorry. Product is out of stock');
+      //   return;
+      // }
         ctxDispatch({
           type : "CART_ADD_ITEM" ,
-          payload : {...product, quantity}
+          payload : {...product, quantity:1}
         })
   }
   
