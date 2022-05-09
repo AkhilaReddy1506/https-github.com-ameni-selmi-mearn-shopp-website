@@ -36,9 +36,8 @@ const getHTML = async (URL) => {
     console.error(error)
   }
 }
-const getItem = async (link, tags )=>{
+const getItem = async (htmlLink, tags )=>{
   try {
-    var htmlLink = await getHTML(link)
     if(htmlLink){
       return new Promise((resolve, reject) => { 
         var domx = new jsdom.JSDOM(htmlLink.data)
@@ -53,9 +52,8 @@ const getItem = async (link, tags )=>{
     console.log(error);
   }
 }
-const getItemFromTable = async(link, tags, index )=>{
+const getItemFromTable = async(htmlLink, tags, index )=>{
  try {
-  var htmlLink = await getHTML(link)
   if(htmlLink){
     return new Promise((resolve, reject) => { 
       var domx = new jsdom.JSDOM(htmlLink.data)
@@ -69,77 +67,16 @@ const getItemFromTable = async(link, tags, index )=>{
 }
 
 
-app.get('/api/test', async (req, res)=>{
-  var data = {}
-  data['products']=[]
-  const html = await getHTML('https://www.mytek.tn/informatique/ordinateurs-portables/pc-portable.html?p=3')
-  const dom = new jsdom.JSDOM(html.data);
-  //get images from url  
-  var elemImg =  dom.window.document.querySelectorAll(".product-image-wrapper img"); 
-  var images=[]
-  elemImg.forEach(function(item) {
-      images.push(item.src)
-  });
-  
-  // var nbProducts = parseInt(dom.window.document.querySelector(".toolbar-number").textContent)
-  var product={}
-  var _id=0
-  var elemLink =  dom.window.document.querySelectorAll(".product-item-link");
-  elemLink.forEach(async (item)=> {
-    var link = item.href
-    if(link.length>0){
-      let name= await getItem(link, ".page-title span")
-      name = name ?  name.textContent : 'not mentioned'
-      let slug= await getItem(link, ".sku .value ")
-      slug = slug ?  slug.textContent : 'not mentioned'
-      let price= await getItem(link, ".product-info-main .price-box .price")
-      price = price ?  price.textContent : 'not mentioned'
-      let brand= await getItem(link, ".amshopby-option-link img")
-      brand = brand ?  brand.title : 'not mentioned'
-      let stock= await getItem(link, ".available span")
-      stock = stock ?  stock.textContent : 'not mentioned'
-      let description= await getItem(link, ".value p")
-      description = description ?  description.textContent : 'not mentioned'
-      let ram = await getItemFromTable(link, ".data td", 2)
-      ram = ram ?  ram.textContent : 'not mentioned'
-      let os = await getItemFromTable(link, ".data td", 5)
-      os = os ?  os.textContent : 'not mentioned'
-      let CPU = await getItemFromTable(link, ".data td", 1)
-      CPU = CPU ?  CPU.textContent : 'not mentioned'
-      let screen = await getItemFromTable(link, ".data td", 6)
-      screen = screen ?  screen.textContent : 'not mentioned'
-      let disk = await getItemFromTable(link, ".data td", 7)
-      disk = disk ?  disk.textContent : 'not mentioned'
-      product ={
-        _id :_id ,
-        name: name,
-        slug: slug,
-        category: 'Laptops',
-        image: images[_id],//await getItem(link, ".fotorama__loaded--img img").src, // 679px × 829px
-        price: price,
-        countInStock: 10,
-        stock : stock ,
-        brand: brand,
-        rating: 4,
-        nbRating: 168 ,
-        description: description,
-        ram : ram,
-        os	: os,
-        CPU : CPU,
-        screen : screen,
-        disk : disk,
-        link : link,
-      }
-        data.products.push(product)
-        _id++      
-        // console.log('data=', data);
-  }
-  });    
+app.get('/api/products', async (req, res)=>{
+  res.send(data.products)
 })
 
-app.get('/api/products', (req, res)=>{
-    res.send(data.products)
-})
+
+
+
+// app.get('/api/products', (req, res)=>{
+//     res.send(data.products)
+// })
 app.get('/api/product/slug/:slug', (req, res)=>{
     const product =  data.products.find(x=> x.slug == req.params.slug)
     if(product){

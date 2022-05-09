@@ -27,7 +27,6 @@ export default function Home() {
     loading: true,
     error: '',
   });
-
   useEffect(() => {
     const fetchData = async () => {
       // console.log('loading', loading);
@@ -35,7 +34,7 @@ export default function Home() {
       try {
         const result = await axios.get('http://localhost:5000/api/products')
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
-        // console.log('data=',data);
+        console.log('data=',result.data)
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message })
       }
