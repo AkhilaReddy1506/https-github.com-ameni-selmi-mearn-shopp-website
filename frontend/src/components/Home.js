@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import axios from 'axios'
 import Product from './Product'
 import logger from 'use-reducer-logger'

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import LoginIcon from '@mui/icons-material/Login';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
@@ -14,12 +15,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import Badge, { BadgeProps } from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import Badge  from '@mui/material/Badge';
 import { Stack } from '@mui/material';
 import { Store } from '../store';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(0);
@@ -39,9 +39,14 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const {cart, userInfo} = state ;
 
-  const {state} = useContext(Store)
-  const {cart} = state ;
+  const signoutHandler = () => {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo');
+  };
+  
   return (
     <AppBar position="static" >
       <Container maxWidth="xl" className='NavBar'>
@@ -135,30 +140,52 @@ const NavBar = () => {
                 </IconButton>
               </Link>
             </Stack>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="" />
-              </IconButton>
-            </Tooltip>
-            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {
+              userInfo 
+              ?(
+                <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt={userInfo.name} src="" />
+                  </IconButton>
+                </Tooltip>
+                <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                    <MenuItem onClick={handleCloseUserMenu}>Signed in as&nbsp;
+                      <Typography style={{ fontWeight: 600 }} textAlign="center">{userInfo.name}</Typography>
+                    </MenuItem> 
+                    <hr style={{backgroundColor: 'black',height: 0.5 }}/>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{'Profile'}</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{'Dashboard'}</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center" onClick={signoutHandler}>{'Sign out'}</Typography>
+                    </MenuItem>
+                </Menu>
+                </>
+              )
+              :(
+                <Link style={{ textDecoration: 'none' }} to="/signin">
+                  <Button variant="contained" endIcon={<LoginIcon/>}>
+                    Sign in
+                  </Button>
+                </Link>
+              )
+            }
           </Box>
         </Toolbar>
       </Container>

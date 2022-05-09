@@ -5,40 +5,48 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { Store } from '../store';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getError } from '../utils';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-      Comparison shop
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+
+  const navigate = useNavigate();
+  const { /*state,*/ dispatch: ctxDispatch } = useContext(Store);
+  // const { userInfo } = state;
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const info = new FormData(event.currentTarget)
+    var email = info.get('email')
+    var pw = info.get('password')
+    try {
+      const { data } = await axios.post('http://localhost:5000/api/users/signin', {
+        "email" : email ,
+        "password" : pw ,
+      });
+      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      navigate(redirect || '/');
+    } catch (err) {
+      toast.error(getError(err));
+    }
   };
+
 
   const { search } = useLocation()
   const redirectInUrl = new URLSearchParams(search).get('redirect')
@@ -47,8 +55,9 @@ export default function SignIn() {
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+      <ToastContainer />
         <Helmet>
-            <title>Sign IN</title>
+            <title>Sign in</title>
         </Helmet>
         <CssBaseline />
         <Grid
@@ -116,17 +125,16 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="#" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href={`/signup?redirect=${redirect}`} variant="body2">
+                  <Link to={`/signup?redirect=${redirect}`} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
