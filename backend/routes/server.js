@@ -1,5 +1,4 @@
 import express from "express"
-import data from "./data.js"
 import cors from "cors"
 import axios from "axios"
 import jsdom from "jsdom"
@@ -8,6 +7,7 @@ import mongoose from "mongoose"
 import expressAsyncHandler from "express-async-handler"
 import seedRouter from './seedRoutes.js';
 import userRouter from './userRoutes.js';
+import data from "./data.js"
 
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -29,49 +29,25 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
   });
 
 
-const getHTML = async (URL) => {
-  try {
-    return await axios.get(URL)
-  } catch (error) {
-    console.error(error)
-  }
-}
-const getItem = async (htmlLink, tags )=>{
-  try {
-    if(htmlLink){
-      return new Promise((resolve, reject) => { 
-        var domx = new jsdom.JSDOM(htmlLink.data)
-        var elem =  domx.window.document.querySelectorAll(tags)
-        elem.forEach(function(item) {
-          // console.log('fn=', item.textContent);
-          resolve(item);
-            })
-        })
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
-const getItemFromTable = async(htmlLink, tags, index )=>{
- try {
-  if(htmlLink){
-    return new Promise((resolve, reject) => { 
-      var domx = new jsdom.JSDOM(htmlLink.data)
-      var elem =  domx.window.document.querySelectorAll(tags)
-        resolve(elem[index]);
+
+
+  app.get('/api/products', async (req, res)=>{
+    res.send(data.products)
+  })
+  
+  app.get('/api/products/delete/:id', async (req, res)=>{
+    try {
+      data.products =  data.products.filter((el) => {
+        return el._id != req.params.id;
       })
-  }
- } catch (error) {
-   console.log(error);
- }
-}
-
-
-app.get('/api/products', async (req, res)=>{
-  res.send(data.products)
-})
-
-
+      res.status(200).send({ message: 'product deleted' });
+    } catch (err) {
+      console.log(getError(err));
+      res.status(401).send({ message: 'No product with this id' });
+    }  
+  })
+  
+    
 
 
 // app.get('/api/products', (req, res)=>{

@@ -6,7 +6,8 @@ var dashboardRoutes;
    dashboardRoutes = [
     
     {
-      path: "/dashboard",
+      id : 1 ,
+      path: "/",
       name: "Dashboard", 
       icon: "nc-icon nc-alien-33",
       component: Dashboard,
@@ -14,6 +15,7 @@ var dashboardRoutes;
     },
  
     {
+      id : 2 ,
       path: "/userslist",
       name: "Users List",
       icon: "nc-icon nc-single-copy-04",
@@ -21,6 +23,7 @@ var dashboardRoutes;
       layout: "/admin",
     },
     {
+      id : 2 ,
       path: "/productslist",
       name: "Products List",
       icon: "nc-icon nc-layers-3",

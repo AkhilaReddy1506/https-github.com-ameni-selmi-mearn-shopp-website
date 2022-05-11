@@ -27,6 +27,29 @@ userRouter.post(
   })
 );
 
+userRouter.get(
+  '/delete/:id',
+  expressAsyncHandler(async (req, res) => {
+    const result = await User.deleteOne({ _id: req.params.id });
+    if (result) {
+        res.send(result);
+        return;
+      }
+    res.status(401).send({ message: 'No user with this id' });
+  })
+);
+userRouter.get(
+  '/all',
+  expressAsyncHandler(async (req, res) => {
+    const users = await User.find({ "isAdmin" : false});
+    if (users) {
+        res.send(users);
+        return;
+    }
+    res.status(401).send({ message: 'No users' });
+  })
+);
+
 userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {

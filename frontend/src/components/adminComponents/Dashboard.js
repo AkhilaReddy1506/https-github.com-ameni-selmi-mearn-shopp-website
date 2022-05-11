@@ -4,6 +4,8 @@ import * as React from 'react';
 
 export default function Dashboard() {
   return (
-    <div>Dashboardddddddddddddddddddddddddddddddddddddddddd</div>
+    <div className='main-admin-container'>
+      Holla
+    </div>
   )
 }

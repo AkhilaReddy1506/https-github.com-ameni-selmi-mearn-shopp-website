@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -21,6 +21,7 @@ import UsersList from './UsersList';
 import ProductsList from './ProductsList';
 import dashboardRoutes from '../../routes';
 import { Link } from 'react-router-dom';
+import Dashboard from './Dashboard';
 
 const drawerWidth = 240;
 
@@ -91,8 +92,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function MenuList() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState(1)
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -100,7 +101,7 @@ function MenuList() {
     const handleDrawerClose = () => {
       setOpen(false);
     };
-  
+    
     return (
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
@@ -134,7 +135,7 @@ function MenuList() {
             <List>
               {dashboardRoutes.map((route, index) => (
                 <Link to={route.path} style={{ textDecoration: 'none' }} key={route.name}>
-                <ListItemButton 
+                <ListItemButton onClick={()=> setSelected(route.id)}
                   sx={{minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5,}}>
                   <ListItemIcon
                     sx={{minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center', }} >
@@ -172,10 +173,13 @@ function MenuList() {
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1,  p: 2 }}>
             <DrawerHeader />
-            {
-
-            }
-              <UsersList/>
+            {/* {
+              {
+                1 : <Dashboard />,
+                2 : <UsersList />, 
+                3: <ProductsList/>,
+              }[selected]
+            } */}
           </Box>
         </Box>    
   )

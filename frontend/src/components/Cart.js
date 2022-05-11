@@ -7,13 +7,16 @@ import { Link } from 'react-router-dom'
 import { Store } from '../store'
 
 export default function Cart() {
-  const {state, dispatch: ctxDispatch} = useContext(Store)
-  const {
-      cart : {cartItems} ,
-    } = state
-    const removeItemHandler = (item) => {
-        ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
-    }
+
+    const {state, dispatch: ctxDispatch} = useContext(Store)
+    const {
+        cart : {cartItems} ,
+        } = state
+
+        const removeItemHandler = (item) => {
+            ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+        }
+
     return (
         <>
             <Helmet>

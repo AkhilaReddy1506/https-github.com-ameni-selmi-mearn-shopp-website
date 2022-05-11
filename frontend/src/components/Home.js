@@ -26,7 +26,8 @@ export default function Home() {
     data: [],
     loading: true,
     error: '',
-  });
+  })
+  
   useEffect(() => {
     const fetchData = async () => {
       // console.log('loading', loading);
@@ -38,7 +39,8 @@ export default function Home() {
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message })
       }
-    };
+    }
+
     fetchData()
   }, [])
 
