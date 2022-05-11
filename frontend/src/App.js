@@ -1,6 +1,5 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
 import ProductDetails from './components/ProductDetails';
 import NavBar from './components/Navbar';
 import Cart from './components/Cart';
@@ -13,6 +12,7 @@ import { Store } from './store';
 import ProductsList from './components/adminComponents/ProductsList';
 import UsersList from './components/adminComponents/UsersList';
 import MenuList from './components/adminComponents/MenuList';
+import ProductsListPage from './components/ProductsListPage';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -36,11 +36,12 @@ function App() {
         <>
           <NavBar/>
           <Routes>
-            <Route exact path='/' element={<Home />} />
+            {/* <Route exact path='/' element={<Home />} /> */}
             <Route exact path='/product/:slug' element={<ProductDetails/>} />
             <Route exact path='/cart' element={<Cart/>} />
             <Route exact path='/signin' element={<SignIn />} />
             <Route exact path='/signup' element={<SignUp />} />
+            <Route exact path='/' element={<ProductsListPage />} />
           </Routes>
         </>
       )}

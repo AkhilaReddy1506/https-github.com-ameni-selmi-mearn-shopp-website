@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {Helmet} from 'react-helmet-async'
@@ -18,7 +18,7 @@ import  Card  from '@mui/material/Card';
 import  Alert  from '@mui/material/Alert';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { AlertTitle, FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { AlertTitle, Button, FormControl, InputLabel, NativeSelect } from '@mui/material';
 import Fab from '@mui/material/Fab'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { getError } from '../utils'
@@ -39,15 +39,7 @@ const reducer = (state, action) => {
 
 
 export default function ProductDetails() {
-  const buildOptions= (max)=> {
-    var arr = [];
 
-    for (let i = 1; i <= max; i++) {
-        arr.push(<option key={i} value="{i}">{i}</option>)
-    }
-
-    return arr; 
-}
     const params= useParams()
     const {slug} = params ;
  
@@ -71,22 +63,21 @@ export default function ProductDetails() {
       };
       fetchData()
     }, [slug])
+
     const {state, dispatch: ctxDispatch} = useContext(Store)
     const {cart} = state ;
+
     const addToCartHandeller =async()=>{
       const existItem = cart.cartItems.find((x) => x._id === product._id);
       // const quantity = existItem ? existItem.quantity + 1 : 1;
       const { data } = await axios.get(`http://localhost:5000/api/products/${product._id}`);
-      // if (data.countInStock < quantity) {
-      //   window.alert('Sorry. Product is out of stock');
-      //   return;
-      // }
         ctxDispatch({
           type : "CART_ADD_ITEM" ,
           payload : {...product, quantity:1}
         })
   }
-  
+  const [showMore, setShowMore] = useState(false);
+      
     return (
       loading ? 
       <div>
@@ -118,7 +109,12 @@ export default function ProductDetails() {
           <Grid item xs={4}>
             <h1>{product.name}</h1>
             <span>by: {product.brand}</span>
-            <h4>{product.description}</h4>
+            <h4>
+              {showMore ? product.description : `${product.description.substring(0, 250)}`+"...."}
+                        <Button size="small" onClick={() => setShowMore(!showMore)}>
+                            {showMore ? "Show less" : "Show more"}
+                        </Button>
+            </h4>
             <div className='rating'>
               <Rating name="half-rating-read"  value={product.rating} precision={0.5} readOnly />
                 <span className='nb-rating'>{product.nbRating}</span>
@@ -173,30 +169,8 @@ export default function ProductDetails() {
                 <ListItem>
                 <strong style={{fontSize: 25,}}> $ {product.price}</strong>
                 </ListItem>
-                  {
-                    product.countInStock <=0 ? 
                     <ListItem>
-                      <Alert severity="error">Unavailable</Alert>
-                    </ListItem>
-                    : <>
-                    <ListItem>
-                      <Alert severity="success">In Stock</Alert>
-                    </ListItem>
-                    <ListItem>
-                        <FormControl size="small">
-                          <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                            Qte
-                          </InputLabel>
-                          <NativeSelect
-                            defaultValue={30}
-                            inputProps={{
-                              name: 'qty',
-                              id: 'uncontrolled-native',
-                            }}
-                          >
-                            {buildOptions(product.countInStock)}
-                          </NativeSelect>
-                        </FormControl>
+                      <Alert severity="success">{product.stock}</Alert>
                     </ListItem>
                     <ListItem>
                     <Fab variant="extended" onClick={addToCartHandeller}>
@@ -204,8 +178,8 @@ export default function ProductDetails() {
                         add to cart
                     </Fab>
                     </ListItem>
-                    </>
-                  }
+                    
+                  
               </List>
               
             </Card>

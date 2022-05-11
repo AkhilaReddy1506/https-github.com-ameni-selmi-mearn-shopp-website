@@ -1,12 +1,13 @@
 import React, { useEffect, useReducer } from 'react'
 import axios from 'axios'
-import Product from './Product'
+import Product from './Product.old'
 import logger from 'use-reducer-logger'
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import  AlertTitle  from '@mui/material/AlertTitle'; 
 import {Helmet} from 'react-helmet-async'
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':

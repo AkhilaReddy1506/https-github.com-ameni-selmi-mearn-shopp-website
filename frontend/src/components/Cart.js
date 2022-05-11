@@ -1,6 +1,6 @@
 import ShoppingCart from '@mui/icons-material/ShoppingCart'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Alert, Button, ButtonGroup, Grid, List, ListItem, Rating } from '@mui/material'
+import { Alert, Button, ButtonGroup, Grid, List, ListItem, Rating, Typography } from '@mui/material'
 import React, { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
@@ -22,14 +22,27 @@ export default function Cart() {
             <Helmet>
                 <title>Shopping cart</title>
             </Helmet>
-            <h1>Shopping cart</h1>
+
+            <Typography
+                sx={{
+                pt: 8,
+                pb: 6,
+                }}
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Shopping cart
+            </Typography>
             <Grid  container spacing={2}>
                 <Grid item xs={8}>
                     {cartItems.length === 0 ?
                         (
                             <Alert severity="warning">
                                 Cart is empty!
-                                <Link to="/">   Go to shopping  </Link>
+                                <Link to="/">  Go to shopping  </Link>
                             </Alert>
                         ):(
                             <List >
@@ -60,7 +73,7 @@ export default function Cart() {
                                                     <Button onClick={() => {removeItemHandler(item)}} variant="outlined" startIcon={<DeleteIcon />}>
                                                         Delete
                                                     </Button>
-                                                    <Button variant="contained" endIcon={<ShoppingCart />}>
+                                                    <Button onClick={event =>  window.location.href= item.link } variant="contained" endIcon={<ShoppingCart />}>
                                                         Order now
                                                     </Button>
                                                 </ButtonGroup>

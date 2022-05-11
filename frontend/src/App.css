@@ -9,9 +9,6 @@
 .product{
     width: 80% ;
 }
-.product a{
-    
-}
 .product-descreption{
     display: grid;
 }
@@ -31,6 +28,8 @@
 .NavBar{
     background-color: #fff;
     color: #474647 ;
+    -webkit-box-shadow: 5px 5px 18px -6px #000000; 
+    box-shadow: 5px 5px 18px -6px #000000;
 }
 .Nav_link{
     text-decoration: none;
@@ -54,4 +53,22 @@
 }
 .main-admin-container{
     margin-left: 7rem;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+  
+  body {
+    min-height: 100vh;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+  }
+  
+.Card{
+    -webkit-box-shadow: 20px -15px 23px -10px rgba(0,0,0,0.37) !important; 
+    box-shadow: 20px -22px 15px -10px rgba(0,0,0,0.37) !important;
 }
