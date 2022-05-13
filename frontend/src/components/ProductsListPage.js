@@ -77,35 +77,18 @@ export default function ProductsListPage() {
       </Helmet>
       <main>
         {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 16,
-          }}
-        >
+        <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 16, }} >
           <Container maxWidth="sm">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
+            <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
               Comparison shop
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
               Save money with us, we extract content and data from different websites.
               Everything you need in one place, buy at the right time.
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">All products</Button>
-              <Button variant="outlined">Sign up</Button>
+            <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center" >
+              <Button style={{backgroundColor: "#F8CB2E"}} variant="contained">All products</Button>
+              <Button style={{color: "#006E7F", border: "1px solid #006E7F"}} variant="outlined">Sign up</Button>
             </Stack>
           </Container>
         </Box>
@@ -161,10 +144,10 @@ export default function ProductsListPage() {
                     </CardContent>
                     <CardActions>
                     <Link to={`/product/${card.slug}`}>
-                        <Button size="small">View</Button>
+                        <Button style={{color: "#F8CB2E"}} size="small">View</Button>
                     </Link>
                     {/* <Button size="small">add to cart</Button> */}
-                    <Button size="small" variant="contained" onClick={event =>  window.location.href= card.link }>
+                    <Button style={{backgroundColor: "#F8CB2E"}} size="small" variant="contained" onClick={event =>  window.location.href= card.link }>
                         Buy now
                     </Button>
                     </CardActions>
