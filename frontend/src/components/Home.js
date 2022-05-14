@@ -43,8 +43,8 @@ const reducer = (state, action) => {
 
 const theme = createTheme();
 
-export default function ProductsListPage() {
-
+export default function Home() {
+ 
     const [{ loading, error, data }, dispatch] = useReducer(logger(reducer), {
         data: [],
         loading: true,
@@ -87,11 +87,16 @@ export default function ProductsListPage() {
               Everything you need in one place, buy at the right time.
             </Typography>
             <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center" >
-              <Button style={{backgroundColor: "#F8CB2E"}} variant="contained">All products</Button>
-              <Button style={{color: "#006E7F", border: "1px solid #006E7F"}} variant="outlined">Sign up</Button>
+              <Link to="/products">
+                <Button style={{backgroundColor: "#F8CB2E"}} variant="contained">All products</Button>
+              </Link>
+              <Link to="/signup">
+                <Button style={{color: "#006E7F", border: "1px solid #006E7F"}} variant="outlined">Sign up</Button>
+              </Link>
             </Stack>
           </Container>
         </Box>
+
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
@@ -109,7 +114,7 @@ export default function ProductsListPage() {
             <AlertTitle>Error</AlertTitle>
               {error}
         </Alert>
-        :data.map((card) => (
+        :data.slice(0, 9).map((card) => (
                 <Grid item key={card.slug} xs={12} sm={6} md={4} >
                 <Card className="Card"
                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -143,13 +148,12 @@ export default function ProductsListPage() {
                     </Typography>
                     </CardContent>
                     <CardActions>
-                    <Link to={`/product/${card.slug}`}>
-                        <Button style={{color: "#F8CB2E"}} size="small">View</Button>
-                    </Link>
-                    {/* <Button size="small">add to cart</Button> */}
-                    <Button style={{backgroundColor: "#F8CB2E"}} size="small" variant="contained" onClick={event =>  window.location.href= card.link }>
-                        Buy now
-                    </Button>
+                      <Link to={`/product/${card.slug}`}>
+                          <Button style={{color: "#F8CB2E"}} size="small">View</Button>
+                      </Link>
+                      <Button style={{backgroundColor: "#F8CB2E"}} size="small" variant="contained" onClick={event =>  window.location.href= card.link }>
+                          Buy now
+                      </Button>
                     </CardActions>
                 </Card>
                 </Grid>

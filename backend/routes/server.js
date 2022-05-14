@@ -7,7 +7,7 @@ import mongoose from "mongoose"
 import expressAsyncHandler from "express-async-handler"
 import seedRouter from './seedRoutes.js';
 import userRouter from './userRoutes.js';
-import data from "./data.js"
+import data, { scrape } from "./data.js"
 
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -31,9 +31,10 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 
 
 
-  app.get('/api/products', async (req, res)=>{
+  app.get('/api/products',  (req, res)=>{
     res.send(data.products)
   })
+
   
   app.get('/api/products/delete/:id', async (req, res)=>{
     try {

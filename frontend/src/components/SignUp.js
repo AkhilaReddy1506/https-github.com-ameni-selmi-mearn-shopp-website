@@ -81,7 +81,7 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: '#F8CB2E' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -91,6 +91,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  color = 'warning'
                   autoComplete="given-name"
                   name="firstName"
                   required
@@ -102,6 +103,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  color = 'warning'
                   required
                   fullWidth
                   id="lastName"
@@ -112,6 +114,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  color = 'warning'
                   required
                   fullWidth
                   id="email"
@@ -122,6 +125,7 @@ export default function SignUp() {
               </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    color = 'warning'
                     required
                     fullWidth
                     name="password"
@@ -133,6 +137,7 @@ export default function SignUp() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    color = 'warning'
                     required
                     fullWidth
                     name="confirmPassword"
@@ -145,7 +150,8 @@ export default function SignUp() {
             
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox value="allowExtraEmails" 
+                  color = 'warning' />}
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
@@ -154,7 +160,8 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 , bgcolor: "#ee5007d1" , 
+                '&:hover': { backgroundColor: '#EE5007' } }}
 
             >
               Sign Up
@@ -162,7 +169,7 @@ export default function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/signin" variant="body2">
-                  Already have an account? Sign in
+                  Already have an account? <span style={{color : "#006E7F"}} >Sign in</span>
                 </Link>
               </Grid>
             </Grid>

@@ -38,7 +38,7 @@ const reducer = (state, action) => {
 }
 
 
-export default function ProductDetails() {
+export default function Home() {
 
     const params= useParams()
     const {slug} = params ;
@@ -111,7 +111,7 @@ export default function ProductDetails() {
             <span>by: {product.brand}</span>
             <h4>
               {showMore ? product.description : `${product.description.substring(0, 250)}`+"...."}
-                        <Button size="small" onClick={() => setShowMore(!showMore)}>
+                        <Button sx={{color: "#006E7F"}} size="small" onClick={() => setShowMore(!showMore)}>
                             {showMore ? "Show less" : "Show more"}
                         </Button>
             </h4>
@@ -173,8 +173,9 @@ export default function ProductDetails() {
                       <Alert severity="success">{product.stock}</Alert>
                     </ListItem>
                     <ListItem>
-                    <Fab variant="extended" onClick={addToCartHandeller}>
-                      <AddShoppingCartIcon sx={{ mr: 1 }} />
+                    <Fab variant="extended" onClick={addToCartHandeller} 
+                          sx={{'&:hover': { backgroundColor: '#EE5007' ,color: "#fff" } }} >
+                      <AddShoppingCartIcon sx={{ mr: 1 }}/>
                         add to cart
                     </Fab>
                     </ListItem>

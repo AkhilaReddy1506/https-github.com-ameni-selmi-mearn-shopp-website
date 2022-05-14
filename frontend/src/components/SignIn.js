@@ -66,7 +66,8 @@ export default function SignIn() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            // backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(images/sign-in-img.jpg)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -84,7 +85,7 @@ export default function SignIn() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar sx={{ m: 1, bgcolor: '#F8CB2E' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
@@ -100,6 +101,7 @@ export default function SignIn() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                color = 'warning'
               />
               <TextField
                 margin="normal"
@@ -109,29 +111,33 @@ export default function SignIn() {
                 label="Password"
                 type="password"
                 id="password"
+                color = 'warning'
                 autoComplete="current-password"
               />
               <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
+                control={<Checkbox value="remember" 
+                color = 'warning' />}
                 label="Remember me"
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, bgcolor: "#ee5007d1" , 
+                  '&:hover': { backgroundColor: '#EE5007' } }}
+
               >
                 Sign In
               </Button>
               <Grid container>
                 <Grid item xs>
                   <Link to="#" variant="body2">
-                    Forgot password?
+                    <span style={{color : "#F8CB2E"}} >Forgot password?</span>
                   </Link>
                 </Grid>
                 <Grid item>
                   <Link to={`/signup?redirect=${redirect}`} variant="body2">
-                    {"Don't have an account? Sign Up"}
+                     Don't have an account? <span style={{color : "#006E7F"}} >Sign up</span>
                   </Link>
                 </Grid>
               </Grid>

@@ -48,7 +48,7 @@
     justify-content: center;
 }
 .Grid .Card{
-        width: 55%;
+        width: 100%;
         float: right;
 }
 .main-admin-container{

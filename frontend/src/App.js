@@ -12,7 +12,8 @@ import { Store } from './store';
 import ProductsList from './components/adminComponents/ProductsList';
 import UsersList from './components/adminComponents/UsersList';
 import MenuList from './components/adminComponents/MenuList';
-import ProductsListPage from './components/ProductsListPage';
+import Home from './components/Home';
+import Products from './components/Products';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -41,7 +42,8 @@ function App() {
             <Route exact path='/cart' element={<Cart/>} />
             <Route exact path='/signin' element={<SignIn />} />
             <Route exact path='/signup' element={<SignUp />} />
-            <Route exact path='/' element={<ProductsListPage />} />
+            <Route exact path='/products' element={<Products />} />
+            <Route exact path='/' element={<Home />} />
           </Routes>
         </>
       )}

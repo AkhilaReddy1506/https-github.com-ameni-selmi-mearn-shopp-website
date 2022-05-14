@@ -41,29 +41,29 @@ const getItemFromTable = async(htmlLink, tags, index )=>{
 
 
 
-const scrape = async (p)=>{
+export const scrape = async (p)=>{
   const html = await getHTML(`https://www.mytek.tn/informatique/ordinateurs-portables/pc-portable.html?p=${p}`)
   return new Promise((resolve, reject) => { 
   try {
     var data = {}
     data['products']=[]
-    var _id=0
+    var _id=0+p*10
     var elemLinkLength=0
     var count=0 
     var timeout=false
     var timer = setTimeout(()=>{
       // res.send(data)
       timeout=true
-      console.log('finish');
-      resolve(data.products);
+      console.log('finish from time out', p);
+        resolve(data.products);
     }, 50000)
     const  execCallback = ()=>{
       count++
       if(count >= elemLinkLength && !timeout){
         clearTimeout(timer)
         // res.send(data)
-        console.log('finish');
-        resolve(data.products);
+        console.log('finish from callback', p);
+          resolve(data.products);
       }
       console.log('count=', count);
     }
@@ -111,7 +111,7 @@ const scrape = async (p)=>{
           name: name,
           slug: slug,
           category: 'Laptops',
-          image: images[_id],//await getItem(link, ".fotorama__loaded--img img").src, // 679px × 829px
+          image: images[_id-10*p],//await getItem(link, ".fotorama__loaded--img img").src, // 679px × 829px
           price: price,
           countInStock: Math.floor(Math.random() * (50 + 1)),
           stock : stock ,
@@ -132,7 +132,7 @@ const scrape = async (p)=>{
           execCallback() ;
     }
   
-    });   
+    }); 
     
   } catch (error) {
     console.log(error);  
@@ -140,6 +140,13 @@ const scrape = async (p)=>{
 })
 }
 
+
+var products1 = await scrape(1)
+var products2 = await scrape(2)
+var products3 = await scrape(3)
+var products4 = await scrape(4)
+
+var prods= [...products1, ...products2, ...products3, ...products4]
 const data = {
     users: [
       {
@@ -155,6 +162,6 @@ const data = {
         isAdmin: false,
       },
     ],
-    products: await scrape(1)
+    products:  prods
   };
   export default data;

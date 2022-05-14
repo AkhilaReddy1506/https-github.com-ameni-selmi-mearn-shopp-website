@@ -36,8 +36,8 @@ export default function Cart() {
             >
               Shopping cart
             </Typography>
-            <Grid  container spacing={2}>
-                <Grid item xs={8}>
+            <Grid  container spacing={4}>
+                <Grid item xs={12}>
                     {cartItems.length === 0 ?
                         (
                             <Alert severity="warning">
@@ -69,14 +69,26 @@ export default function Cart() {
                                                 </div>
                                             </Grid>
                                             <Grid>
-                                                <ButtonGroup variant="contained" size="large" aria-label="large button group">
-                                                    <Button onClick={() => {removeItemHandler(item)}} variant="outlined" startIcon={<DeleteIcon />}>
-                                                        Delete
-                                                    </Button>
-                                                    <Button onClick={event =>  window.location.href= item.link } variant="contained" endIcon={<ShoppingCart />}>
-                                                        Order now
-                                                    </Button>
-                                                </ButtonGroup>
+                                                <List>
+                                                <ListItem>
+                                                        <Button 
+                                                            onClick={event =>  window.location.href= item.link } 
+                                                            variant="contained" 
+                                                            style={{backgroundColor: "#F8CB2E", width : "100%" }}
+                                                            endIcon={<ShoppingCart />}>
+                                                            Order now
+                                                        </Button>
+                                                    </ListItem>
+                                                    <ListItem>
+                                                        <Button 
+                                                            onClick={() => {removeItemHandler(item)}} 
+                                                            variant="outlined" 
+                                                            style={{ color: "#B22727", width : "100%" , border : "1px solid #B22727"}}
+                                                            startIcon={<DeleteIcon />}>
+                                                            Delete
+                                                        </Button>
+                                                    </ListItem>
+                                                </List>
                                             </Grid>
                                         </ListItem>
                                     ))
@@ -85,9 +97,6 @@ export default function Cart() {
                         )
 
                     }
-                </Grid>
-                <Grid item xs={4}>
-                    
                 </Grid>
             </Grid>
 
