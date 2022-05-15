@@ -7,7 +7,8 @@ import mongoose from "mongoose"
 import expressAsyncHandler from "express-async-handler"
 import seedRouter from './seedRoutes.js';
 import userRouter from './userRoutes.js';
-import data from "./data.js"
+// import data from "./data.js"
+import path from 'path';
 
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -24,15 +25,11 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
   
   app.use('/api/seed', seedRouter);
   app.use('/api/users', userRouter);
-  app.use((err, req, res, next) => {
-    res.status(500).send({ message: err.message });
-  });
-
-
+  
 
 
   app.get('/api/products',  (req, res)=>{
-    res.send(data.products)
+    // res.send(data.products)
   })
 
   
@@ -50,10 +47,6 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
   
     
 
-
-// app.get('/api/products', (req, res)=>{
-//     res.send(data.products)
-// })
 app.get('/api/product/slug/:slug', (req, res)=>{
     const product =  data.products.find(x=> x.slug == req.params.slug)
     if(product){
@@ -73,6 +66,20 @@ app.get('/api/products/:id', (req, res) => {
       res.status(404).send({ message: 'Product Not Found' });
     }
   });
+
+
+
+
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  app.get('*', (req, res) =>
+    res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+  );
+
+  app.use((err, req, res, next) => {
+    res.status(500).send({ message: err.message });
+  });
+
 
 
 const port= process.env.PORT || 5000 

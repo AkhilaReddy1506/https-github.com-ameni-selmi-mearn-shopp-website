@@ -15,10 +15,12 @@ import MenuList from './components/adminComponents/MenuList';
 import Home from './components/Home';
 import Products from './components/Products';
 import Addadmin from './components/adminComponents/Addadmin';
+import UserProfile from './components/UserProfile';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {cart, userInfo} = state ;
+  
   return (
     <Router>
 {      
@@ -44,6 +46,7 @@ function App() {
             <Route exact path='/signin' element={<SignIn />} />
             <Route exact path='/signup' element={<SignUp />} />
             <Route exact path='/products' element={<Products />} />
+            <Route exact path='/userupdate' element={<UserProfile />} />
             <Route exact path='/' element={<Home />} />
           </Routes>
         </>
