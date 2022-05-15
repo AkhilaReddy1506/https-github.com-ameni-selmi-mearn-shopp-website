@@ -1,6 +1,7 @@
 # mearn-shopp-website
 Comparison shopping website
 ## dependencies
+### Frontend
     "@mui/material": "^5.6.3",
     "axios": "^0.27.2",
     "react": "^18.1.0",
@@ -9,6 +10,17 @@ Comparison shopping website
     "react-helmet-async": "^1.3.0",
     "react-toastify": "^9.0.1",
     "web-vitals": "^2.1.4"
+### Backend
+    "bcryptjs": "^2.4.3",
+    "cheerio": "^1.0.0-rc.10",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "jsdom": "^19.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.2",
+    "puppeteer": "^13.7.0"
 ## Color palette :
   https://colorhunt.co/palette/006e7ff8cb2eee5007b22727
 
