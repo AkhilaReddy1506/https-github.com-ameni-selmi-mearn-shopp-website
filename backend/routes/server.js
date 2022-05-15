@@ -80,8 +80,6 @@ app.get('/api/products/:id', (req, res) => {
     res.status(500).send({ message: err.message });
   });
 
-
-
 const port= process.env.PORT || 5000 
 
 app.listen(port, ()=>{
