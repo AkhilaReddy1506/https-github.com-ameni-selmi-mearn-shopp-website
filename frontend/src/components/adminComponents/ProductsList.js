@@ -87,7 +87,7 @@ export default function ProductsList() {
           </TableHead>
           <TableBody>
             {data.map((row) => (
-              <StyledTableRow key={row.slug}>
+              <StyledTableRow key={row.slug+row._id}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>

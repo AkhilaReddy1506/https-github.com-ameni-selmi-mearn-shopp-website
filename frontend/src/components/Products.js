@@ -71,9 +71,11 @@ export default function Products() {
         fetchData()
       }, [])
 
+      const [page, setPage] = useState(1)
+
       const handleChange = (event) => {
         setCategory(event.target.value);
-        console.log(category);
+        setPage(1)
         switch (event.target.value) {
           case 0:
             setProducts(data)
@@ -84,16 +86,16 @@ export default function Products() {
           case 2:
             setProducts( data.filter((product)=> product.category == 'smartphone' ) )
             break; 
-          case 3:
-            setProducts(data)
-            break;       
+          // case 3:
+          //   setProducts(data)
+          //   break;       
           default:
+            setProducts(data)
             break;
         }
       };
       
       
-      const [page, setPage] = useState(1)
     return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -123,7 +125,6 @@ export default function Products() {
 
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
-          <Button onClick={()=>{console.log(products)}}>ena te3 TEST</Button>
           <FormControl sx={{ mb: "5%",  width: "30%" }} >
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
                 <Select 
@@ -155,18 +156,20 @@ export default function Products() {
               {error}
         </Alert>
         :products.slice((page* 9 - 9), page*9).map((card) => (
-                <Grid item key={card.slug} xs={12} sm={6} md={4} >
+                <Grid item key={card._id} xs={12} sm={6} md={4} >
                 <Card className="Card"
                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                    <CardMedia
-                    component="img"
-                    sx={{
-                        // 16:9
-                        pt: '15%',
-                    }}
-                    image={`${card.image}?w=248&fit=crop&auto=format`}
-                    alt="random"
-                    />
+                    <Link to={`/product/${card.slug}`}>
+                      <CardMedia
+                      component="img"
+                      sx={{
+                          // 16:9
+                          pt: '15%',
+                      }}
+                      image={`${card.image}?w=248&fit=crop&auto=format`}
+                      alt="random"
+                      />
+                    </Link>
                     <CardContent sx={{ flexGrow: 1 }}>
                     <Link to={`/product/${card.slug}`}>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -200,11 +203,14 @@ export default function Products() {
             ))
             }
           </Grid>
-          <Pagination onChange={(e, value) => setPage(value)} sx={{ py: 8 }} count={
-              products.length /9 > Math.floor(products.length /9) 
-                ? Math.floor(products.length /9)+1 
-                : Math.floor(products.length /10)} 
-                showFirstButton showLastButton />
+          <Pagination onChange={(e, value) => setPage(value)} 
+              page={page}
+              sx={{ py: 8 }} 
+              count={
+                products.length /9 > Math.floor(products.length /9) 
+                  ? Math.floor(products.length /9)+1 
+                  : Math.floor(products.length /10)} 
+                  showFirstButton showLastButton />
         </Container>
       </main>
 
