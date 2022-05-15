@@ -63,7 +63,6 @@ export default function Home() {
             dispatch({ type: 'FETCH_FAIL', payload: err.message })
           }
         }
-    
         fetchData()
       }, [])
     

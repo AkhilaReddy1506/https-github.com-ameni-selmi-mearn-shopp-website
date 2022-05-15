@@ -41,7 +41,7 @@ userRouter.get(
 userRouter.get(
   '/all',
   expressAsyncHandler(async (req, res) => {
-    const users = await User.find({ "isAdmin" : false});
+    const users = await User.find({});
     if (users) {
         res.send(users);
         return;
@@ -57,6 +57,7 @@ userRouter.post(
       name: req.body.name,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
+      isAdmin: req.body.isAdmin,
     });
     const user = await newUser.save();
     res.send({

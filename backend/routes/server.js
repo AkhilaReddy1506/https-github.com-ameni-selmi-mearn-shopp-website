@@ -7,7 +7,7 @@ import mongoose from "mongoose"
 import expressAsyncHandler from "express-async-handler"
 import seedRouter from './seedRoutes.js';
 import userRouter from './userRoutes.js';
-import data, { scrape } from "./data.js"
+import data from "./data.js"
 
 dotenv.config()
 mongoose.connect(process.env.MONGODB_URI).then(() => {

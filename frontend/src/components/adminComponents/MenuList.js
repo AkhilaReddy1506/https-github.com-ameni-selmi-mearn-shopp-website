@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -19,9 +19,13 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import UsersList from './UsersList';
 import ProductsList from './ProductsList';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import dashboardRoutes from '../../routes';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import { Avatar, Badge, Container, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import Person from '@mui/icons-material/Person';
+import { Store } from '../../store';
 
 const drawerWidth = 240;
 
@@ -102,27 +106,105 @@ function MenuList() {
       setOpen(false);
     };
     
+    const [anchorElNav, setAnchorElNav] = useState(0);
+    const [anchorElUser, setAnchorElUser] = useState(0);
+  
+    const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event) => {
+      setAnchorElUser(event.currentTarget);
+    };
+  
+    const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+    };
+  
+    const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+    };
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const {cart, userInfo} = state 
+
+    const navigate = useNavigate();   
+    const signoutHandler = () => {
+      ctxDispatch({ type: 'USER_SIGNOUT' });
+      localStorage.removeItem('userInfo');
+      navigate('/');
+    };
+    
     return (
         <Box sx={{ display: 'flex' }}>
           <CssBaseline />
           <AppBar position="fixed" open={open}>
+          <Container maxWidth="xl" className='NavBar'>
             <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={{
-                  marginRight: 5,
-                  ...(open && { display: 'none' }),
-                }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                Mini variant drawer
-              </Typography>
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={{
+                    marginRight: 5,
+                    ...(open && { display: 'none' }),
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" noWrap component="div">
+                  CS Admin view
+                </Typography>
+              </Box>
+              <Box sx={{ flexGrow: 0 }}>
+              <Stack spacing={2} direction="row" sx={{display: "contents"}} >
+                <Link to='/notif'>
+                  <IconButton sx={{ marginRight: 2 }} >
+                  <Badge badgeContent={5} 
+                              color="success" 
+                              sx={{ "& .MuiBadge-badge": 
+                                                      { fontSize: 12, height: 20, minWidth: 20, backgroundColor: "#F8CB2E" }}}
+                    >
+                    <NotificationsNoneIcon color="action" />
+                  </Badge>
+                  </IconButton>
+                </Link>
+              </Stack>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar alt={userInfo.name} src="" />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                      <MenuItem onClick={handleCloseUserMenu}>Signed in as&nbsp;
+                        <Typography style={{ fontWeight: 600 }} textAlign="center">{userInfo.name}</Typography>
+                      </MenuItem> 
+                      <hr style={{backgroundColor: 'black',height: 0.5 }}/>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">{'Profile'}</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">{'Dashboard'}</Typography>
+                      </MenuItem>
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center" onClick={signoutHandler}>{'Sign out'}</Typography>
+                      </MenuItem>
+                  </Menu>
+             </Box>
             </Toolbar>
+            </Container>
           </AppBar>
 
           <Drawer variant="permanent" open={open}>
@@ -136,50 +218,19 @@ function MenuList() {
               {dashboardRoutes.map((route, index) => (
                 <Link to={route.path} style={{ textDecoration: 'none' }} key={route.name}>
                 <ListItemButton onClick={()=> setSelected(route.id)}
-                  sx={{minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5,}}>
+                  sx={{minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5, mb :5, }}>
                   <ListItemIcon
                     sx={{minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center', }} >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    {route.icon}
                   </ListItemIcon>
                   <ListItemText primary={route.name} sx={{ opacity: open ? 1 : 0 }} />
                 </ListItemButton>
                 </Link>
               ))}
             </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItemButton
-                  key={text}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              ))}
-            </List>
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1,  p: 2 }}>
             <DrawerHeader />
-            {/* {
-              {
-                1 : <Dashboard />,
-                2 : <UsersList />, 
-                3: <ProductsList/>,
-              }[selected]
-            } */}
           </Box>
         </Box>    
   )

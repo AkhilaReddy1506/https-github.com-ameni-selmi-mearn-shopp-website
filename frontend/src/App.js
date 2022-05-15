@@ -14,6 +14,7 @@ import UsersList from './components/adminComponents/UsersList';
 import MenuList from './components/adminComponents/MenuList';
 import Home from './components/Home';
 import Products from './components/Products';
+import Addadmin from './components/adminComponents/Addadmin';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -30,6 +31,7 @@ function App() {
             <Route exact path='/' element={<Dashboard />} />
             <Route exact path='/productslist' element={<ProductsList/>} />
             <Route exact path='/userslist' element={<UsersList/>} />
+            <Route exact path='/addadmin' element={<Addadmin/>} />
           </Routes>
         </>
       )
@@ -37,7 +39,6 @@ function App() {
         <>
           <NavBar/>
           <Routes>
-            {/* <Route exact path='/' element={<Home />} /> */}
             <Route exact path='/product/:slug' element={<ProductDetails/>} />
             <Route exact path='/cart' element={<Cart/>} />
             <Route exact path='/signin' element={<SignIn />} />

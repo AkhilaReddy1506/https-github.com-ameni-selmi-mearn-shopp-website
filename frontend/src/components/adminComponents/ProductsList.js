@@ -8,10 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Container } from '@mui/material';
+import { Button, Container, withStyles } from '@mui/material';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { getError } from '../../utils';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -66,33 +67,41 @@ export default function ProductsList() {
   };
   
   
-  
   return (
     <Container className='main-admin-container'>
+      <Helmet>
+        <title>product list</title>
+      </Helmet>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Product&nbsp;name</StyledTableCell>
-              <StyledTableCell align="right">Product&nbsp;slug</StyledTableCell>
-              <StyledTableCell align="right">Product&nbsp;price</StyledTableCell>
-              <StyledTableCell align="right">Product&nbsp;stock</StyledTableCell>
-              <StyledTableCell align="right">Product&nbsp;brand</StyledTableCell>
-              <StyledTableCell align="center">Delete&nbsp;product</StyledTableCell>
+              <StyledTableCell style={{backgroundColor:'#006E7F'}}>Product&nbsp;name</StyledTableCell>
+              <StyledTableCell align="right" style={{backgroundColor:'#006E7F'}}>Product&nbsp;slug</StyledTableCell>
+              <StyledTableCell align="right" style={{backgroundColor:'#006E7F'}}>Product&nbsp;price</StyledTableCell>
+              <StyledTableCell align="right" style={{backgroundColor:'#006E7F'}}>Product&nbsp;stock</StyledTableCell>
+              <StyledTableCell align="right" style={{backgroundColor:'#006E7F'}}>Product&nbsp;brand</StyledTableCell>
+              <StyledTableCell align="right" style={{backgroundColor:'#006E7F'}}>Product&nbsp;link</StyledTableCell>
+              <StyledTableCell align="center" style={{backgroundColor:'#006E7F'}}>Delete&nbsp;product</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.slug}>
                 <StyledTableCell component="th" scope="row">
                   {row.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.slug}</StyledTableCell>
                 <StyledTableCell align="right">{row.price}</StyledTableCell>
-                <StyledTableCell align="right">{row.stock}</StyledTableCell>
+                <StyledTableCell align="right">{row.stock ? row.stock : 'not mention'}</StyledTableCell>
                 <StyledTableCell align="right">{row.brand}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button onClick={handleDelete} id={row._id} variant="outlined" startIcon={<DeleteIcon />}>
+                  <Button style={{color: "#EE5007"}} size="small" onClick={event =>  window.location.href= row.link }>
+                          view
+                  </Button>
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  <Button onClick={handleDelete} id={row._id} variant="outlined" sx={{color : '#B22727' , border : '1px solid #B22727'}} startIcon={<DeleteIcon />}>
                     Delete
                   </Button>
                 </StyledTableCell>

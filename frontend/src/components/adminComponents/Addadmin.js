@@ -15,30 +15,24 @@ import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
-import { Store } from '../store';
+import { Store } from '../../store';
 import { toast, ToastContainer } from 'react-toastify';
-import { getError } from '../utils';
+import { getError } from '../../utils';
 
 
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function Addadmin() {
+    const navigate = useNavigate();
+    const { search } = useLocation();
+    const redirectInUrl = new URLSearchParams(search).get('redirect');
+    const redirect = redirectInUrl ? redirectInUrl : '/';
+  
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { userInfo } = state;
 
-  const navigate = useNavigate();
-  const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : '/';
-
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
-
-  useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
-    }
-  }, [navigate, redirect, userInfo]);
-
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,7 +41,7 @@ export default function SignUp() {
     var password = info.get('password')
     var name = info.get('firstName')+" "+info.get("lastName")
     var confirmPassword = info.get('confirmPassword')
-    var isAdmin = false
+    var isAdmin = true
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
@@ -59,9 +53,8 @@ export default function SignUp() {
         password,
         isAdmin
       });
-      ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      navigate(redirect || '/');
+      toast.success("admin add with success");
+      navigate('/userslist');
     } catch (err) {
       toast.error(getError(err));
     }
@@ -72,7 +65,7 @@ export default function SignUp() {
       <Container component="main" maxWidth="xs">
       <ToastContainer />
           <Helmet>
-            <title>Sign up</title>
+            <title>add admin</title>
           </Helmet>
         <CssBaseline />
         <Box
@@ -87,7 +80,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Add admin
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -166,15 +159,8 @@ export default function SignUp() {
                 '&:hover': { backgroundColor: '#EE5007' } }}
 
             >
-              Sign Up
+              Add admin
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link to="/signin" variant="body2">
-                  Already have an account? <span style={{color : "#006E7F"}} >Sign in</span>
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

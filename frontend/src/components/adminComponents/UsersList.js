@@ -12,6 +12,8 @@ import { Button, Container } from '@mui/material';
 import axios from 'axios'
 import { toast } from 'react-toastify';
 import { getError } from '../../utils';
+import { Helmet } from 'react-helmet-async';
+import { Store } from '../../store';
 
 
 
@@ -55,7 +57,6 @@ export default function UsersList() {
   
   const handleDelete = async (event) => {
     // event.preventDefault();
-    console.log(event.target.id);
     try {
       const res  = await axios.get(`http://localhost:5000/api/users/delete/${event.target.id}`)
       setData(data.filter((user) => 
@@ -67,29 +68,37 @@ export default function UsersList() {
   };
   
   
+  const { state, dispatch: ctxDispatch } = React.useContext(Store);
+  const {userInfo} = state ;
   
   return (
     <Container className='main-admin-container'>
+      <Helmet>
+        <title>user list</title>
+      </Helmet>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>User email</StyledTableCell>
-              <StyledTableCell align="right">User&nbsp;name</StyledTableCell>
-              <StyledTableCell align="right">User&nbsp;password</StyledTableCell>
-              <StyledTableCell align="center">Delete user</StyledTableCell>
+              <StyledTableCell style={{backgroundColor:'#006E7F'}}>User email</StyledTableCell>
+              <StyledTableCell style={{backgroundColor:'#006E7F'}} align="right">User&nbsp;name</StyledTableCell>
+              <StyledTableCell style={{backgroundColor:'#006E7F'}} align="right">User&nbsp;status</StyledTableCell>
+              <StyledTableCell style={{backgroundColor:'#006E7F'}} align="center">Delete user</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data.filter((row)=> row._id != userInfo._id).map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.email}
                 </StyledTableCell>
                 <StyledTableCell align="right">{row.name}</StyledTableCell>
-                <StyledTableCell align="right">{row.password}</StyledTableCell>
+                <StyledTableCell align="right">{row.isAdmin ? "admin" : "user"}</StyledTableCell>
                 <StyledTableCell align="right">
-                  <Button onClick={handleDelete} id={row._id} variant="outlined" startIcon={<DeleteIcon />}>
+                  <Button onClick={handleDelete} 
+                          id={row._id} variant="outlined" 
+                          sx={{color : '#B22727' , border : '1px solid #B22727'}}
+                          startIcon={<DeleteIcon />}>
                     Delete
                   </Button>
                 </StyledTableCell>

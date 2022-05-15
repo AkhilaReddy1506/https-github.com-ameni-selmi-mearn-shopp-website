@@ -134,7 +134,12 @@ const NavBar = () => {
             <Stack spacing={2} direction="row" sx={{display: "contents"}} >
               <Link to='/cart'>
                 <IconButton sx={{ marginRight: 2 }} >
-                <Badge badgeContent={cart.cartItems.reduce((a, c) => a + c.quantity, 0)} color="success" sx={{ "& .MuiBadge-badge": { fontSize: 12, height: 20, minWidth: 20, backgroundColor: "#F8CB2E" }}}>
+                <Badge badgeContent={
+                            cart.cartItems.reduce((a, c) => a + c.quantity, 0)} 
+                            color="success" 
+                            sx={{ "& .MuiBadge-badge": 
+                                                    { fontSize: 12, height: 20, minWidth: 20, backgroundColor: "#F8CB2E" }}}
+                  >
                   <ShoppingCartIcon color="action" />
                 </Badge>
                 </IconButton>
