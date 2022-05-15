@@ -34,6 +34,7 @@ function App() {
             <Route exact path='/productslist' element={<ProductsList/>} />
             <Route exact path='/userslist' element={<UsersList/>} />
             <Route exact path='/addadmin' element={<Addadmin/>} />
+            <Route exact path='/userupdate' element={<UserProfile />} />
           </Routes>
         </>
       )

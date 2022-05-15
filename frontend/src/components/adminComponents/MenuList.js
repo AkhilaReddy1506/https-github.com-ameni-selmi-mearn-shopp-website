@@ -192,9 +192,11 @@ function MenuList() {
                         <Typography style={{ fontWeight: 600 }} textAlign="center">{userInfo.name}</Typography>
                       </MenuItem> 
                       <hr style={{backgroundColor: 'black',height: 0.5 }}/>
-                      <MenuItem onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{'Profile'}</Typography>
-                      </MenuItem>
+                      <Link to="/userupdate">
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          <Typography textAlign="center">{'Profile'}</Typography>
+                        </MenuItem>
+                      </Link>
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">{'Dashboard'}</Typography>
                       </MenuItem>
